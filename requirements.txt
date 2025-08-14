@@ -1,0 +1,8 @@
+python-dotenv
+uvicorn[standard]
+httpx
+python-dotenv
+fastapi
+pydantic
+pydantic_settings
+contextvars
