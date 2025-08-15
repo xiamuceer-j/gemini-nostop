@@ -433,6 +433,28 @@ async def process_stream_with_retries(
 
 
 # --- API 路由 ---
+
+# --- MODIFICATION START ---
+# 添加根路径路由，提供代理信息
+@app.get("/")
+async def root():
+    """提供关于代理的基本信息和用法。"""
+    return JSONResponse(content={
+        "message": "Gemini API Proxy is running.",
+        "usage_info": {
+            "description": "This proxy forwards requests to the Gemini API and adds a robust retry layer for streaming requests.",
+            "supported_paths": "All paths are proxied to 'generativelanguage.googleapis.com'.",
+            "example_paths": [
+                "/v1beta/models/gemini-pro:generateContent",
+                "/v1beta/models/gemini-pro-vision:generateContent",
+                "/v1beta/models/gemini-pro:streamGenerateContent?alt=sse"
+            ]
+        }
+    })
+
+
+# --- MODIFICATION END ---
+
 @app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 async def proxy_request(request: Request, path: str):
     """主代理端点，处理流式和非流式请求。"""
